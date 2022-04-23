@@ -107,7 +107,7 @@ const videoBtnModal = () => {
 
 // Video component with default arg value
 // = 'cNjIUSDnb9k'
-const videoPlayer = (videoId) => {
+const videoPlayer = (videoId = 'cNjIUSDnb9k') => {
   const domString = `
   <iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   `;
@@ -184,9 +184,9 @@ const eventListeners = () => {
       // get the video ID off the button ID
       // find the index of the object in the array
       const videoStuff = e.target.id.split("--");
-      console.log(videoStuff[1]);
+      const [method, videoID] = e.target.id.split("--");
       // only listen for events with "watch" or "delete" included in the string
-      const index = data.findIndex(taco => taco.videoStuff === videoStuff);
+      const index = data.findIndex(taco => taco.videoId=== videoId);
 
       //go back here vv
 
@@ -214,9 +214,18 @@ const eventListeners = () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault(); // this goes in EVERY form submit to prevent page reload
     // grab the values from the form inputs and create an object
-    // push that object to the data array    
+
+      const newVideoObj =   {
+        videoId: document.querySelector("#videoID").value,
+        title: document.querySelector("#title").value,
+        category: document.querySelector("#category").value,
+        favorite: document.querySelector("#favorite").checked,
+      }
+
+    // push that object to the data array   
+    data.push(newVideoObj); 
     // rerender cards using the cardsOnDom function and pass it the updated data array
-    
+    cardsOnDom(data);
     
     // Close modal and reset form
     formModal.hide()
