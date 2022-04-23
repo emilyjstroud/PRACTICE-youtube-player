@@ -116,7 +116,7 @@ const videoPlayer = (videoId) => {
 
 // Filter Button Row
 const filterButtons = () => {
-  let domString = `
+  const domString = `
   <div class="d-flex flex-wrap justify-content-between my-3">
     <button class="btn btn-secondary btn-lg buttonRow" id="music">Music</button>
     <button class="btn btn-secondary btn-lg buttonRow" id="javascript">Javascript</button>
@@ -158,10 +158,23 @@ const eventListeners = () => {
   const formModal = new bootstrap.Modal(document.querySelector('#add-video'));
   
   // FILTER BUTTON ROW
+// const button = document.querySelector(#'music') 
+
   document.querySelector('#filterContainer').addEventListener('click', (e) => {
     console.log("You clicked a filter button", e.target.id);
     // filter on category (either use .filter or a loop)
     // rerender DOM with new array (use the cardsOnDom function)
+    if (e.target.id === "clear") {
+      cardsOnDom (data);
+      //go back and look @ filter vvv
+    } else if (e.target.id === "favorite") {
+      const favs = data.filter(taco => taco.favorite === true);
+      cardsOnDom(favs);
+    } else if (e.target.id) {
+    const topics = data.filter(taco => taco.category === e.target.id);
+  cardsOnDom(topics);
+    }
+    //rerender DOM w new array (use cardsOnDom function)
   });
 
   // BUTTONS ON CARDS
@@ -170,23 +183,28 @@ const eventListeners = () => {
     if (e.target.id) {
       // get the video ID off the button ID
       // find the index of the object in the array
-
+      const videoStuff = e.target.id.split("--");
+      console.log(videoStuff[1]);
       // only listen for events with "watch" or "delete" included in the string
+      const index = data.findIndex(taco => taco.videoStuff === videoStuff);
+
+      //go back here vv
 
       // if watch: grab the ID and rerender the videoPlayer with that ID as an argument
       if (e.target.id.includes('watch')) {
-        console.log("Pressed Watch Button")        
+        videoPlayer(videoStuff);        
         
         
         // scroll to top of page
         document.location = '#';
-      }
+      }       
 
       // if delete: find the index of item in array and splice
       // NOTE: if 2 videos have the same videoId, this will delete the first one in the array
       if (e.target.id.includes('delete')) {
-        console.log("Delete Button Pressed")
+        data.splice(index, 1);
         // rerender DOM with updated data array (use the cardsOnDom function)
+        cardsOnDom(data);
       }
     }
   });
