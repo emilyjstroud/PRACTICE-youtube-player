@@ -183,16 +183,15 @@ const eventListeners = () => {
     if (e.target.id) {
       // get the video ID off the button ID
       // find the index of the object in the array
-      const videoStuff = e.target.id.split("--");
       const [method, videoID] = e.target.id.split("--");
       // only listen for events with "watch" or "delete" included in the string
-      const index = data.findIndex(taco => taco.videoId=== videoId);
+      const index = data.findIndex((taco) => taco.videoId === videoID);
 
       //go back here vv
 
       // if watch: grab the ID and rerender the videoPlayer with that ID as an argument
       if (e.target.id.includes('watch')) {
-        videoPlayer(videoStuff);        
+        videoPlayer(videoID);        
         
         
         // scroll to top of page
